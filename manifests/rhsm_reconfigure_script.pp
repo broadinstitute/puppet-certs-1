@@ -1,4 +1,4 @@
-define certs::rhsm_reconfigure_script($ca_cert, $server_ca_cert) {
+define kcerts::rhsm_reconfigure_script($ca_cert, $server_ca_cert) {
 
   concat { $title:
     owner => 'root',

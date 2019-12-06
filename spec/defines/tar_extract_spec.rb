@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'certs::tar_extract' do
+describe 'kcerts::tar_extract' do
   let(:title) { '/path/to/certs.tar' }
 
   context 'without parameters' do

@@ -1,7 +1,7 @@
 # Certs Configuration
-class certs::config (
-  $pki_dir = $certs::pki_dir,
-  $group   = $certs::group,
+class kcerts::config (
+  $pki_dir = $kcerts::pki_dir,
+  $group   = $kcerts::group,
 ) {
 
   file { $pki_dir:

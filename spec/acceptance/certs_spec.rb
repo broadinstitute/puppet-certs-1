@@ -1,6 +1,6 @@
 require 'spec_helper_acceptance'
 
-describe 'certs' do
+describe 'kcerts' do
   before(:all) do
     install_repo = <<-EOS
       yumrepo { 'katello':
@@ -16,7 +16,7 @@ describe 'certs' do
 
   context 'with default params' do
     let(:pp) do
-      'include certs'
+      'include kcerts'
     end
 
     it_behaves_like 'a idempotent resource'

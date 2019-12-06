@@ -1,29 +1,29 @@
 # Constains certs specific configurations for candlepin
-class certs::candlepin (
-  $hostname               = $certs::node_fqdn,
-  $cname                  = $certs::cname,
-  $generate               = $certs::generate,
-  $regenerate             = $certs::regenerate,
-  $deploy                 = $certs::deploy,
-  $ca_cert                = $certs::candlepin_ca_cert,
-  $ca_key                 = $certs::candlepin_ca_key,
-  $pki_dir                = $certs::pki_dir,
-  $keystore               = $certs::candlepin_keystore,
-  $keystore_password_file = $certs::keystore_password_file,
-  $amqp_truststore        = $certs::candlepin_amqp_truststore,
-  $amqp_keystore          = $certs::candlepin_amqp_keystore,
-  $amqp_store_dir         = $certs::candlepin_amqp_store_dir,
-  $country                = $certs::country,
-  $state                  = $certs::state,
-  $city                   = $certs::city,
-  $org                    = $certs::org,
-  $org_unit               = $certs::org_unit,
-  $expiration             = $certs::expiration,
-  $default_ca             = $certs::default_ca,
-  $ca_key_password_file   = $certs::ca_key_password_file,
-  $user                   = $certs::user,
-  $group                  = $certs::group,
-) inherits certs {
+class kcerts::candlepin (
+  $hostname               = $kcerts::node_fqdn,
+  $cname                  = $kcerts::cname,
+  $generate               = $kcerts::generate,
+  $regenerate             = $kcerts::regenerate,
+  $deploy                 = $kcerts::deploy,
+  $ca_cert                = $kcerts::candlepin_ca_cert,
+  $ca_key                 = $kcerts::candlepin_ca_key,
+  $pki_dir                = $kcerts::pki_dir,
+  $keystore               = $kcerts::candlepin_keystore,
+  $keystore_password_file = $kcerts::keystore_password_file,
+  $amqp_truststore        = $kcerts::candlepin_amqp_truststore,
+  $amqp_keystore          = $kcerts::candlepin_amqp_keystore,
+  $amqp_store_dir         = $kcerts::candlepin_amqp_store_dir,
+  $country                = $kcerts::country,
+  $state                  = $kcerts::state,
+  $city                   = $kcerts::city,
+  $org                    = $kcerts::org,
+  $org_unit               = $kcerts::org_unit,
+  $expiration             = $kcerts::expiration,
+  $default_ca             = $kcerts::default_ca,
+  $ca_key_password_file   = $kcerts::ca_key_password_file,
+  $user                   = $kcerts::user,
+  $group                  = $kcerts::group,
+) inherits kcerts {
 
   Exec {
     logoutput => 'on_failure',
@@ -78,7 +78,7 @@ class certs::candlepin (
   $alias = 'candlepin-ca'
 
   if $deploy {
-    certs::keypair { 'candlepin-ca':
+    kcerts::keypair { 'candlepin-ca':
       manage_cert   => true,
       manage_key    => true,
       key_pair      => $default_ca,
@@ -94,7 +94,7 @@ class certs::candlepin (
       strip         => true,
       password_file => $ca_key_password_file,
     } ~>
-    certs::keypair { 'tomcat':
+    kcerts::keypair { 'tomcat':
       key_pair  => Cert[$tomcat_cert_name],
       key_file  => $tomcat_key,
       cert_file => $tomcat_cert,
@@ -116,7 +116,7 @@ class certs::candlepin (
       group  => $group,
       mode   => '0640',
     } ~>
-    certs::keypair { 'candlepin':
+    kcerts::keypair { 'candlepin':
       key_pair  => Cert[$java_client_cert_name],
       key_file  => $client_key,
       cert_file => $client_cert,

@@ -1,6 +1,6 @@
 require 'spec_helper_acceptance'
 
-describe 'certs::apache' do
+describe 'kcerts::apache' do
   before(:all) do
     install_repo = <<-EOS
       yumrepo { 'katello':
@@ -16,7 +16,7 @@ describe 'certs::apache' do
 
   context 'with default parameters' do
     let(:pp) do
-      'include certs::apache'
+      'include kcerts::apache'
     end
 
     it 'should force regeneration' do
@@ -48,7 +48,7 @@ describe 'certs::apache' do
   context 'with server cert' do
     let(:pp) do
       <<-EOS
-      class { '::certs::apache':
+      class { '::kcerts::apache':
         server_cert => '/etc/puppetlabs/code/modules/certs/fixtures/example.partial.solutions.crt',
         server_key  => '/etc/puppetlabs/code/modules/certs/fixtures/example.partial.solutions.key',
       }

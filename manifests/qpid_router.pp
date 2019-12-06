@@ -1,25 +1,25 @@
 # Constains certs specific configurations for qpid dispatch router
-class certs::qpid_router (
-  $hostname               = $certs::node_fqdn,
-  $cname                  = $certs::cname,
-  $generate               = $certs::generate,
-  $regenerate             = $certs::regenerate,
-  $deploy                 = $certs::deploy,
-  $server_cert            = $certs::qpid_router_server_cert,
-  $client_cert            = $certs::qpid_router_client_cert,
-  $server_key             = $certs::qpid_router_server_key,
-  $client_key             = $certs::qpid_router_client_key,
-  $owner                  = $certs::qpid_router_owner,
-  $group                  = $certs::qpid_router_group,
+class kcerts::qpid_router (
+  $hostname               = $kcerts::node_fqdn,
+  $cname                  = $kcerts::cname,
+  $generate               = $kcerts::generate,
+  $regenerate             = $kcerts::regenerate,
+  $deploy                 = $kcerts::deploy,
+  $server_cert            = $kcerts::qpid_router_server_cert,
+  $client_cert            = $kcerts::qpid_router_client_cert,
+  $server_key             = $kcerts::qpid_router_server_key,
+  $client_key             = $kcerts::qpid_router_client_key,
+  $owner                  = $kcerts::qpid_router_owner,
+  $group                  = $kcerts::qpid_router_group,
 
-  $country               = $certs::country,
-  $state                 = $certs::state,
-  $city                  = $certs::city,
-  $org_unit              = $certs::org_unit,
-  $expiration            = $certs::expiration,
-  $default_ca            = $certs::default_ca,
-  $ca_key_password_file  = $certs::ca_key_password_file,
-) inherits certs {
+  $country               = $kcerts::country,
+  $state                 = $kcerts::state,
+  $city                  = $kcerts::city,
+  $org_unit              = $kcerts::org_unit,
+  $expiration            = $kcerts::expiration,
+  $default_ca            = $kcerts::default_ca,
+  $ca_key_password_file  = $kcerts::ca_key_password_file,
+) inherits kcerts {
 
   $server_keypair = "${hostname}-qpid-router-server"
   $client_keypair = "${hostname}-qpid-router-client"
@@ -61,7 +61,7 @@ class certs::qpid_router (
   }
 
   if $deploy {
-    certs::keypair { 'qpid_router_server':
+    kcerts::keypair { 'qpid_router_server':
       key_pair    => Cert[$server_keypair],
       key_file    => $server_key,
       manage_key  => true,
@@ -75,7 +75,7 @@ class certs::qpid_router (
       cert_mode   => '0640',
     }
 
-    certs::keypair { 'qpid_router_client':
+    kcerts::keypair { 'qpid_router_client':
       key_pair    => Cert[$client_keypair],
       key_file    => $client_key,
       manage_key  => true,

@@ -1,25 +1,25 @@
 # Class for handling Puppet cert configuration
-class certs::puppet (
-  $hostname             = $certs::node_fqdn,
-  $cname                = $certs::cname,
-  $generate             = $certs::generate,
-  $regenerate           = $certs::regenerate,
-  $deploy               = $certs::deploy,
+class kcerts::puppet (
+  $hostname             = $kcerts::node_fqdn,
+  $cname                = $kcerts::cname,
+  $generate             = $kcerts::generate,
+  $regenerate           = $kcerts::regenerate,
+  $deploy               = $kcerts::deploy,
 
-  $client_cert          = $certs::puppet_client_cert,
-  $client_key           = $certs::puppet_client_key,
-  $ssl_ca_cert          = $certs::puppet_ssl_ca_cert,
+  $client_cert          = $kcerts::puppet_client_cert,
+  $client_key           = $kcerts::puppet_client_key,
+  $ssl_ca_cert          = $kcerts::puppet_ssl_ca_cert,
 
-  $country              = $certs::country,
-  $state                = $certs::state,
-  $city                 = $certs::city,
-  $expiration           = $certs::expiration,
-  $default_ca           = $certs::default_ca,
-  $ca_key_password_file = $certs::ca_key_password_file,
-  $server_ca            = $certs::server_ca,
+  $country              = $kcerts::country,
+  $state                = $kcerts::state,
+  $city                 = $kcerts::city,
+  $expiration           = $kcerts::expiration,
+  $default_ca           = $kcerts::default_ca,
+  $ca_key_password_file = $kcerts::ca_key_password_file,
+  $server_ca            = $kcerts::server_ca,
 
-  $pki_dir              = $certs::pki_dir,
-) inherits certs {
+  $pki_dir              = $kcerts::pki_dir,
+) inherits kcerts {
 
   $puppet_client_cert_name = "${hostname}-puppet-client"
 
@@ -47,7 +47,7 @@ class certs::puppet (
       owner  => 'puppet',
       mode   => '0700',
     } ->
-    certs::keypair { 'puppet':
+    kcerts::keypair { 'puppet':
       key_pair    => Cert[$puppet_client_cert_name],
       key_file    => $client_key,
       manage_key  => true,

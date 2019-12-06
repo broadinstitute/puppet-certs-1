@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-describe 'certs::katello' do
+describe 'kcerts::katello' do
   let :facts do
     on_supported_os['redhat-7-x86_64']
   end
 
   context 'with parameters' do
     let :pre_condition do
-      "class {'certs': pki_dir => '/tmp', server_ca_name => 'server_ca', default_ca_name => 'default_ca'}"
+      "class {'kcerts': pki_dir => '/tmp', server_ca_name => 'server_ca', default_ca_name => 'default_ca'}"
     end
 
     it { should contain_trusted_ca__ca('katello_server-host-cert').with_source('/tmp/certs/server_ca.crt') }
@@ -21,7 +21,7 @@ describe 'certs::katello' do
         .with_bootstrap_script('/bin/bash /usr/bin/katello-rhsm-consumer')
         .with_postun_script('test -f /etc/rhsm/rhsm.conf.kat-backup && command cp /etc/rhsm/rhsm.conf.kat-backup /etc/rhsm/rhsm.conf')
         .with_alias('katello-ca-consumer-latest.noarch.rpm')
-        .that_subscribes_to(['Ca[server_ca]', 'Certs::Rhsm_reconfigure_script[/var/www/html/pub/katello-rhsm-consumer]'])
+        .that_subscribes_to(['Ca[server_ca]', 'Kcerts::Rhsm_reconfigure_script[/var/www/html/pub/katello-rhsm-consumer]'])
     end
   end
 end

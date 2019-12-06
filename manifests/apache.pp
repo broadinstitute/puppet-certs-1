@@ -1,29 +1,29 @@
 # Certs configurations for Apache
-class certs::apache (
-  $hostname             = $certs::node_fqdn,
-  $cname                = $certs::cname,
-  $generate             = $certs::generate,
-  $regenerate           = $certs::regenerate,
-  $deploy               = $certs::deploy,
-  $pki_dir              = $certs::pki_dir,
-  $server_cert          = $certs::server_cert,
-  $server_key           = $certs::server_key,
-  $server_cert_req      = $certs::server_cert_req,
-  $country              = $certs::country,
-  $state                = $certs::state,
-  $city                 = $certs::city,
-  $org                  = $certs::org,
-  $org_unit             = $certs::org_unit,
-  $expiration           = $certs::expiration,
-  $default_ca           = $certs::default_ca,
-  $ca_key_password_file = $certs::ca_key_password_file,
-  $group                = $certs::group,
-) inherits certs {
+class kcerts::apache (
+  $hostname             = $kcerts::node_fqdn,
+  $cname                = $kcerts::cname,
+  $generate             = $kcerts::generate,
+  $regenerate           = $kcerts::regenerate,
+  $deploy               = $kcerts::deploy,
+  $pki_dir              = $kcerts::pki_dir,
+  $server_cert          = $kcerts::server_cert,
+  $server_key           = $kcerts::server_key,
+  $server_cert_req      = $kcerts::server_cert_req,
+  $country              = $kcerts::country,
+  $state                = $kcerts::state,
+  $city                 = $kcerts::city,
+  $org                  = $kcerts::org,
+  $org_unit             = $kcerts::org_unit,
+  $expiration           = $kcerts::expiration,
+  $default_ca           = $kcerts::default_ca,
+  $ca_key_password_file = $kcerts::ca_key_password_file,
+  $group                = $kcerts::group,
+) inherits kcerts {
 
   $apache_cert_name = "${hostname}-apache"
   $apache_cert = "${pki_dir}/certs/katello-apache.crt"
   $apache_key  = "${pki_dir}/private/katello-apache.key"
-  $apache_ca_cert = $certs::katello_server_ca_cert
+  $apache_ca_cert = $kcerts::katello_server_ca_cert
 
   if $server_cert {
     cert { $apache_cert_name:
@@ -57,7 +57,7 @@ class certs::apache (
   }
 
   if $deploy {
-    certs::keypair { 'apache':
+    kcerts::keypair { 'apache':
       key_pair   => Cert[$apache_cert_name],
       key_file   => $apache_key,
       manage_key => true,

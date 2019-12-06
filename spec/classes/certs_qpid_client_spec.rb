@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'certs::qpid_client' do
+describe 'kcerts::qpid_client' do
   on_os_under_test.each do |os, facts|
     context "on #{os}" do
       let :facts do facts end

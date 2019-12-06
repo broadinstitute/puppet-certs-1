@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'certs::apache' do
+describe 'kcerts::apache' do
   let :facts do
     on_supported_os['redhat-7-x86_64']
   end
@@ -11,7 +11,7 @@ describe 'certs::apache' do
 
   describe "with group overridden" do
     let :pre_condition do
-      "class {'certs': group => 'foreman',}"
+      "class {'kcerts': group => 'foreman',}"
     end
 
     it { should compile.with_all_deps }

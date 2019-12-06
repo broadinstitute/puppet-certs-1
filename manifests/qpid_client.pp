@@ -1,24 +1,24 @@
 # Pulp Master Certs configuration
-class certs::qpid_client (
-  $hostname              = $certs::node_fqdn,
-  $cname                 = $certs::cname,
-  $generate              = $certs::generate,
-  $regenerate            = $certs::regenerate,
-  $deploy                = $certs::deploy,
+class kcerts::qpid_client (
+  $hostname              = $kcerts::node_fqdn,
+  $cname                 = $kcerts::cname,
+  $generate              = $kcerts::generate,
+  $regenerate            = $kcerts::regenerate,
+  $deploy                = $kcerts::deploy,
 
-  $qpid_client_cert      = $certs::qpid_client_cert,
-  $qpid_client_ca_cert   = $certs::qpid_client_ca_cert,
+  $qpid_client_cert      = $kcerts::qpid_client_cert,
+  $qpid_client_ca_cert   = $kcerts::qpid_client_ca_cert,
 
-  $country               = $certs::country,
-  $state                 = $certs::state,
-  $city                  = $certs::city,
-  $org_unit              = $certs::org_unit,
-  $expiration            = $certs::expiration,
-  $default_ca            = $certs::default_ca,
-  $ca_key_password_file  = $certs::ca_key_password_file,
+  $country               = $kcerts::country,
+  $state                 = $kcerts::state,
+  $city                  = $kcerts::city,
+  $org_unit              = $kcerts::org_unit,
+  $expiration            = $kcerts::expiration,
+  $default_ca            = $kcerts::default_ca,
+  $ca_key_password_file  = $kcerts::ca_key_password_file,
 
   $cert_group            = 'apache',
-) inherits certs {
+) inherits kcerts {
 
   $qpid_client_cert_name = "${hostname}-qpid-client-cert"
 
@@ -42,14 +42,14 @@ class certs::qpid_client (
 
   if $deploy {
 
-    file { $certs::pulp_pki_dir:
+    file { $kcerts::pulp_pki_dir:
       ensure => directory,
       owner  => 'root',
       group  => $cert_group,
       mode   => '0640',
     }
 
-    file { "${certs::pulp_pki_dir}/qpid":
+    file { "${kcerts::pulp_pki_dir}/qpid":
       ensure => directory,
       owner  => 'root',
       group  => $cert_group,

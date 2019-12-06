@@ -1,5 +1,5 @@
 # type that coresponds the openssl pkcs12 subcommand
-define certs::ssltools::openssl::pkcs12 ( $cert_name, $ca_cert, $ca_key, $ca_name, $keystore_out, $password_out, $password_in = undef, $refreshonly = false) {
+define kcerts::ssltools::openssl::pkcs12 ( $cert_name, $ca_cert, $ca_key, $ca_name, $keystore_out, $password_out, $password_in = undef, $refreshonly = false) {
   $password_in_options = $password_in ? {
     undef   => '',
     default => "-passin \"pass:${password_in}\"",

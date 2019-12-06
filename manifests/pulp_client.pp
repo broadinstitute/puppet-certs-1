@@ -1,21 +1,21 @@
 # Pulp Client Certs
-class certs::pulp_client (
-  $hostname    = $certs::node_fqdn,
-  $cname       = $certs::cname,
-  $generate    = $certs::generate,
-  $regenerate  = $certs::regenerate,
-  $deploy      = $certs::deploy,
+class kcerts::pulp_client (
+  $hostname    = $kcerts::node_fqdn,
+  $cname       = $kcerts::cname,
+  $generate    = $kcerts::generate,
+  $regenerate  = $kcerts::regenerate,
+  $deploy      = $kcerts::deploy,
   $common_name = 'admin',
-  $pki_dir      = $certs::pki_dir,
-  $ca_cert      = $certs::ca_cert,
-  $country                 = $certs::country,
-  $state                   = $certs::state,
-  $city                    = $certs::city,
-  $expiration           = $certs::expiration,
-  $default_ca           = $certs::default_ca,
-  $ca_key_password_file    = $certs::ca_key_password_file,
-  $group                   = $certs::group,
-) inherits certs {
+  $pki_dir      = $kcerts::pki_dir,
+  $ca_cert      = $kcerts::ca_cert,
+  $country                 = $kcerts::country,
+  $state                   = $kcerts::state,
+  $city                    = $kcerts::city,
+  $expiration           = $kcerts::expiration,
+  $default_ca           = $kcerts::default_ca,
+  $ca_key_password_file    = $kcerts::ca_key_password_file,
+  $group                   = $kcerts::group,
+) inherits kcerts {
 
   $client_cert_name = 'pulp-client'
   $client_cert      = "${pki_dir}/certs/${client_cert_name}.crt"
@@ -27,9 +27,9 @@ class certs::pulp_client (
     cname         => $cname,
     common_name   => $common_name,
     purpose       => client,
-    country       => $certs::country,
-    state         => $certs::state,
-    city          => $certs::city,
+    country       => $kcerts::country,
+    state         => $kcerts::state,
+    city          => $kcerts::city,
     org           => 'PULP',
     org_unit      => 'NODES',
     expiration    => $expiration,
@@ -41,7 +41,7 @@ class certs::pulp_client (
   }
 
   if $deploy {
-    certs::keypair { 'pulp_client':
+    kcerts::keypair { 'pulp_client':
       key_pair   => Cert[$client_cert_name],
       key_file   => $client_key,
       manage_key => true,

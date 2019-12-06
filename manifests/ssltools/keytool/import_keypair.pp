@@ -1,5 +1,5 @@
 # import a x509 keypair into a jks
-define certs::ssltools::keytool::import_keypair($keystore_alias, $keystore, $keystore_password, $cert, $key, $tmp_password_file){
+define kcerts::ssltools::keytool::import_keypair($keystore_alias, $keystore, $keystore_password, $cert, $key, $tmp_password_file){
   # Stupid keytool doesn't allow you to import a keypair.  You can only import a cert.  Hence, we have to
   # create the store as an PKCS12 and convert to JKS.  See http://stackoverflow.com/a/8224863
 
@@ -9,7 +9,7 @@ define certs::ssltools::keytool::import_keypair($keystore_alias, $keystore, $key
     unless  => "keytool -list -keystore ${keystore} -storepass ${keystore_password} -alias ${keystore_alias}",
     path    => ['/bin/', '/usr/bin'],
   } ~>
-  certs::ssltools::openssl::pkcs12{ "[${title}] convert x509 cert and key to pkcs12":
+  kcerts::ssltools::openssl::pkcs12{ "[${title}] convert x509 cert and key to pkcs12":
     cert_name    => $keystore_alias,
     ca_cert      => $cert,
     ca_name      => 'root',

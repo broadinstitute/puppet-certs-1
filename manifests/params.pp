@@ -1,5 +1,5 @@
 # Certs Parameters
-class certs::params {
+class kcerts::params {
 
   $log_dir = '/var/log/certs'
   $pki_dir = '/etc/pki/katello'

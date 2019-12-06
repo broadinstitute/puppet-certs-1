@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'certs::puppet' do
+describe 'kcerts::puppet' do
   let :facts do
     on_supported_os['redhat-7-x86_64']
   end

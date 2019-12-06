@@ -1,6 +1,6 @@
 require 'spec_helper_acceptance'
 
-describe 'certs' do
+describe 'kcerts' do
   before(:all) do
     install_repo = <<-EOS
       yumrepo { 'katello':
@@ -32,7 +32,7 @@ describe 'certs' do
         ensure => installed,
       }
 
-      include certs::candlepin
+      include kcerts::candlepin
       EOS
     end
 

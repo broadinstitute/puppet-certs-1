@@ -1,22 +1,22 @@
 # Handles Qpid cert configuration
-class certs::qpid (
-  $hostname             = $certs::node_fqdn,
-  $cname                = $certs::cname,
-  $generate             = $certs::generate,
-  $regenerate           = $certs::regenerate,
-  $deploy               = $certs::deploy,
-  $country              = $certs::country,
-  $state                = $certs::state,
-  $city                 = $certs::city,
-  $org_unit             = $certs::org_unit,
-  $expiration           = $certs::expiration,
-  $default_ca           = $certs::default_ca,
-  $ca_key_password_file = $certs::ca_key_password_file,
-  $pki_dir              = $certs::pki_dir,
-  $ca_cert              = $certs::ca_cert,
-  $qpidd_group          = $certs::qpidd_group,
+class kcerts::qpid (
+  $hostname             = $kcerts::node_fqdn,
+  $cname                = $kcerts::cname,
+  $generate             = $kcerts::generate,
+  $regenerate           = $kcerts::regenerate,
+  $deploy               = $kcerts::deploy,
+  $country              = $kcerts::country,
+  $state                = $kcerts::state,
+  $city                 = $kcerts::city,
+  $org_unit             = $kcerts::org_unit,
+  $expiration           = $kcerts::expiration,
+  $default_ca           = $kcerts::default_ca,
+  $ca_key_password_file = $kcerts::ca_key_password_file,
+  $pki_dir              = $kcerts::pki_dir,
+  $ca_cert              = $kcerts::ca_cert,
+  $qpidd_group          = $kcerts::qpidd_group,
   $nss_cert_name        = 'broker',
-) inherits certs {
+) inherits kcerts {
 
   Exec { logoutput => 'on_failure' }
 
@@ -40,15 +40,15 @@ class certs::qpid (
   }
 
   if $deploy {
-    include certs::ssltools::nssdb
-    $nss_db_dir = $certs::ssltools::nssdb::nss_db_dir
-    $nss_db_password_file = $certs::ssltools::nssdb::nss_db_password_file
+    include kcerts::ssltools::nssdb
+    $nss_db_dir = $kcerts::ssltools::nssdb::nss_db_dir
+    $nss_db_password_file = $kcerts::ssltools::nssdb::nss_db_password_file
 
     $client_cert            = "${pki_dir}/certs/${qpid_cert_name}.crt"
     $client_key             = "${pki_dir}/private/${qpid_cert_name}.key"
     $pfx_path               = "${pki_dir}/${qpid_cert_name}.pfx"
 
-    certs::keypair { 'qpid':
+    kcerts::keypair { 'qpid':
       key_pair   => Cert[$qpid_cert_name],
       key_file   => $client_key,
       manage_key => true,
@@ -57,15 +57,15 @@ class certs::qpid (
       key_mode   => '0440',
       cert_file  => $client_cert,
     } ~>
-    Class['::certs::ssltools::nssdb'] ~>
-    certs::ssltools::certutil { 'ca':
+    Class['::kcerts::ssltools::nssdb'] ~>
+    kcerts::ssltools::certutil { 'ca':
       nss_db_dir  => $nss_db_dir,
       client_cert => $ca_cert,
       trustargs   => 'TCu,Cu,Tuw',
       refreshonly => true,
       subscribe   => Pubkey[$ca_cert],
     } ~>
-    certs::ssltools::certutil { $nss_cert_name:
+    kcerts::ssltools::certutil { $nss_cert_name:
       nss_db_dir  => $nss_db_dir,
       client_cert => $client_cert,
       refreshonly => true,

@@ -1,4 +1,4 @@
-# Definition: certs::tar_extract
+# Definition: kcerts::tar_extract
 #
 # This class extracts a tarball
 #
@@ -8,7 +8,7 @@
 # Actions:
 # - Extracts a tarball
 #
-define certs::tar_extract($path = $title) {
+define kcerts::tar_extract($path = $title) {
   validate_file_exists($path)
 
   exec { "extract ${path}":

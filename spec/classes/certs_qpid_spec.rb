@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'certs::qpid' do
+describe 'kcerts::qpid' do
   on_os_under_test.each do |os, facts|
     context "on #{os}" do
       let :facts do
@@ -16,7 +16,7 @@ describe 'certs::qpid' do
             .with_cname(['localhost'])
         end
 
-        it { is_expected.to contain_class('certs::ssltools::nssdb') }
+        it { is_expected.to contain_class('kcerts::ssltools::nssdb') }
 
         it do
           is_expected.to contain_certs__keypair('qpid')

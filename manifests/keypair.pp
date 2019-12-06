@@ -1,4 +1,4 @@
-define certs::keypair (
+define kcerts::keypair (
   $key_pair,
   $key_file,
   $cert_file,

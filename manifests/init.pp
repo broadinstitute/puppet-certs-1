@@ -1,4 +1,4 @@
-# == Class: certs
+# == Class: kcerts
 #
 # Base for installing and configuring certs. It holds the basic configuration
 # aournd certificates generation and deployment. The per-subsystem configuratoin
@@ -71,34 +71,34 @@
 #
 # $server_ca_name::       The name of the server CA (used for https)
 #
-class certs (
-  Stdlib::Absolutepath $log_dir = $certs::params::log_dir,
-  Stdlib::Fqdn $node_fqdn = $certs::params::node_fqdn,
-  Array[Stdlib::Fqdn] $cname = $certs::params::cname,
-  Boolean $generate = $certs::params::generate,
-  Boolean $regenerate = $certs::params::regenerate,
-  Boolean $regenerate_ca = $certs::params::regenerate_ca,
-  Boolean $deploy = $certs::params::deploy,
-  String $ca_common_name = $certs::params::ca_common_name,
-  String[2,2] $country = $certs::params::country,
-  String $state = $certs::params::state,
-  String $city = $certs::params::city,
-  String $org = $certs::params::org,
-  String $org_unit = $certs::params::org_unit,
-  String $expiration = $certs::params::expiration,
-  String $ca_expiration = $certs::params::ca_expiration,
-  Optional[Stdlib::Absolutepath] $server_cert = $certs::params::server_cert,
-  Optional[Stdlib::Absolutepath] $server_key = $certs::params::server_key,
-  Optional[Stdlib::Absolutepath] $server_cert_req = $certs::params::server_cert_req,
-  Optional[Stdlib::Absolutepath] $server_ca_cert = $certs::params::server_ca_cert,
-  Stdlib::Absolutepath $pki_dir = $certs::params::pki_dir,
-  Stdlib::Absolutepath $ssl_build_dir = $certs::params::ssl_build_dir,
-  String $user = $certs::params::user,
-  String $group = $certs::params::group,
-  String $default_ca_name = $certs::params::default_ca_name,
-  String $server_ca_name = $certs::params::server_ca_name,
-  Optional[Stdlib::Absolutepath] $tar_file = $certs::params::tar_file,
-) inherits certs::params {
+class kcerts (
+  Stdlib::Absolutepath $log_dir = $kcerts::params::log_dir,
+  Stdlib::Fqdn $node_fqdn = $kcerts::params::node_fqdn,
+  Array[Stdlib::Fqdn] $cname = $kcerts::params::cname,
+  Boolean $generate = $kcerts::params::generate,
+  Boolean $regenerate = $kcerts::params::regenerate,
+  Boolean $regenerate_ca = $kcerts::params::regenerate_ca,
+  Boolean $deploy = $kcerts::params::deploy,
+  String $ca_common_name = $kcerts::params::ca_common_name,
+  String[2,2] $country = $kcerts::params::country,
+  String $state = $kcerts::params::state,
+  String $city = $kcerts::params::city,
+  String $org = $kcerts::params::org,
+  String $org_unit = $kcerts::params::org_unit,
+  String $expiration = $kcerts::params::expiration,
+  String $ca_expiration = $kcerts::params::ca_expiration,
+  Optional[Stdlib::Absolutepath] $server_cert = $kcerts::params::server_cert,
+  Optional[Stdlib::Absolutepath] $server_key = $kcerts::params::server_key,
+  Optional[Stdlib::Absolutepath] $server_cert_req = $kcerts::params::server_cert_req,
+  Optional[Stdlib::Absolutepath] $server_ca_cert = $kcerts::params::server_ca_cert,
+  Stdlib::Absolutepath $pki_dir = $kcerts::params::pki_dir,
+  Stdlib::Absolutepath $ssl_build_dir = $kcerts::params::ssl_build_dir,
+  String $user = $kcerts::params::user,
+  String $group = $kcerts::params::group,
+  String $default_ca_name = $kcerts::params::default_ca_name,
+  String $server_ca_name = $kcerts::params::server_ca_name,
+  Optional[Stdlib::Absolutepath] $tar_file = $kcerts::params::tar_file,
+) inherits kcerts::params {
 
   if $server_cert {
     validate_file_exists($server_cert, $server_key, $server_ca_cert)
@@ -119,19 +119,19 @@ class certs (
   $katello_default_ca_cert = "${pki_dir}/certs/${default_ca_name}.crt"
 
   if $tar_file {
-    certs::tar_extract { $tar_file:
-      before => Class['certs::install'],
+    kcerts::tar_extract { $tar_file:
+      before => Class['kcerts::install'],
     }
   }
 
-  contain certs::install
-  contain certs::config
-  contain certs::ca
+  contain kcerts::install
+  contain kcerts::config
+  contain kcerts::ca
 
-  Class['certs::install'] ->
-  Class['certs::config'] ->
-  Class['certs::ca']
+  Class['kcerts::install'] ->
+  Class['kcerts::config'] ->
+  Class['kcerts::ca']
 
-  $default_ca = $certs::ca::default_ca
-  $server_ca = $certs::ca::server_ca
+  $default_ca = $kcerts::ca::default_ca
+  $server_ca = $kcerts::ca::server_ca
 }

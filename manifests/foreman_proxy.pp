@@ -1,29 +1,29 @@
 # Handles Foreman Proxy cert configuration
-class certs::foreman_proxy (
-  $hostname             = $certs::node_fqdn,
-  $cname                = $certs::cname,
-  $generate             = $certs::generate,
-  $regenerate           = $certs::regenerate,
-  $deploy               = $certs::deploy,
-  $proxy_cert           = $certs::params::foreman_proxy_cert,
-  $proxy_key            = $certs::params::foreman_proxy_key,
-  $proxy_ca_cert        = $certs::params::foreman_proxy_ca_cert,
-  $foreman_ssl_cert     = $certs::params::foreman_proxy_foreman_ssl_cert,
-  $foreman_ssl_key      = $certs::params::foreman_proxy_foreman_ssl_key,
-  $foreman_ssl_ca_cert  = $certs::params::foreman_proxy_foreman_ssl_ca_cert,
-  $pki_dir              = $certs::pki_dir,
-  $server_ca            = $certs::server_ca,
-  $server_cert          = $certs::server_cert,
-  $server_key           = $certs::server_key,
-  $server_cert_req      = $certs::server_cert_req,
-  $country              = $certs::country,
-  $state                = $certs::state,
-  $city                 = $certs::city,
-  $expiration           = $certs::expiration,
-  $default_ca           = $certs::default_ca,
-  $ca_key_password_file = $certs::ca_key_password_file,
-  $group                = $certs::group,
-) inherits certs {
+class kcerts::foreman_proxy (
+  $hostname             = $kcerts::node_fqdn,
+  $cname                = $kcerts::cname,
+  $generate             = $kcerts::generate,
+  $regenerate           = $kcerts::regenerate,
+  $deploy               = $kcerts::deploy,
+  $proxy_cert           = $kcerts::params::foreman_proxy_cert,
+  $proxy_key            = $kcerts::params::foreman_proxy_key,
+  $proxy_ca_cert        = $kcerts::params::foreman_proxy_ca_cert,
+  $foreman_ssl_cert     = $kcerts::params::foreman_proxy_foreman_ssl_cert,
+  $foreman_ssl_key      = $kcerts::params::foreman_proxy_foreman_ssl_key,
+  $foreman_ssl_ca_cert  = $kcerts::params::foreman_proxy_foreman_ssl_ca_cert,
+  $pki_dir              = $kcerts::pki_dir,
+  $server_ca            = $kcerts::server_ca,
+  $server_cert          = $kcerts::server_cert,
+  $server_key           = $kcerts::server_key,
+  $server_cert_req      = $kcerts::server_cert_req,
+  $country              = $kcerts::country,
+  $state                = $kcerts::state,
+  $city                 = $kcerts::city,
+  $expiration           = $kcerts::expiration,
+  $default_ca           = $kcerts::default_ca,
+  $ca_key_password_file = $kcerts::ca_key_password_file,
+  $group                = $kcerts::group,
+) inherits kcerts {
 
   $proxy_cert_name = "${hostname}-foreman-proxy"
   $foreman_proxy_client_cert_name = "${hostname}-foreman-proxy-client"
@@ -81,7 +81,7 @@ class certs::foreman_proxy (
 
   if $deploy {
 
-    certs::keypair { 'foreman_proxy':
+    kcerts::keypair { 'foreman_proxy':
       key_pair   => Cert[$proxy_cert_name],
       key_file   => $proxy_key,
       manage_key => true,
@@ -94,7 +94,7 @@ class certs::foreman_proxy (
       key_pair => $default_ca,
     }
 
-    certs::keypair { 'foreman_proxy_client':
+    kcerts::keypair { 'foreman_proxy_client':
       key_pair   => Cert[$foreman_proxy_client_cert_name],
       key_file   => $foreman_ssl_key,
       manage_key => true,

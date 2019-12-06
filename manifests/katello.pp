@@ -1,20 +1,20 @@
-# == Class: certs::katello
+# == Class: kcerts::katello
 #
 # This class builds an RPM containing the bootstrap for a candlepin consumer.
 # This file is placed in $katello_www_pub_dir.
 #
-class certs::katello (
-  $hostname                          = $certs::node_fqdn,
+class kcerts::katello (
+  $hostname                          = $kcerts::node_fqdn,
   $deployment_url                    = undef,
   $rhsm_port                         = 443,
   $rhsm_ca_dir                       = '/etc/rhsm/ca',
   $candlepin_cert_rpm_alias_filename = 'katello-ca-consumer-latest.noarch.rpm',
   $katello_www_pub_dir               = '/var/www/html/pub',
-  $katello_server_ca_cert            = $certs::katello_server_ca_cert,
-  $server_ca_name                    = $certs::server_ca_name,
-  $ca_cert                           = $certs::ca_cert,
-  $server_ca                         = $certs::server_ca,
-) inherits certs {
+  $katello_server_ca_cert            = $kcerts::katello_server_ca_cert,
+  $server_ca_name                    = $kcerts::server_ca_name,
+  $ca_cert                           = $kcerts::ca_cert,
+  $server_ca                         = $kcerts::server_ca,
+) inherits kcerts {
   $katello_rhsm_setup_script      = 'katello-rhsm-consumer'
   $katello_rhsm_setup_script_location = "/usr/bin/${katello_rhsm_setup_script}"
 
@@ -43,7 +43,7 @@ class certs::katello (
     mode    => '0644',
     require => File[$katello_server_ca_cert],
   } ~>
-  certs::rhsm_reconfigure_script { "${katello_www_pub_dir}/${katello_rhsm_setup_script}":
+  kcerts::rhsm_reconfigure_script { "${katello_www_pub_dir}/${katello_rhsm_setup_script}":
     ca_cert        => $ca_cert,
     server_ca_cert => $katello_server_ca_cert,
   } ~>
