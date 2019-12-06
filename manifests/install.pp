@@ -1,5 +1,5 @@
 # Certs Installation
-class certs::install {
+class kcerts::install {
 
   package { 'katello-certs-tools':
     ensure  => installed,
