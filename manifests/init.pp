@@ -87,6 +87,7 @@ class kcerts (
   String $org_unit = $kcerts::params::org_unit,
   String $expiration = $kcerts::params::expiration,
   String $ca_expiration = $kcerts::params::ca_expiration,
+  $ca_key_password = extlib::cache_data('foreman_cache_data', 'ca_key_password', extlib::random_password(24)),
   Optional[Stdlib::Absolutepath] $server_cert = $kcerts::params::server_cert,
   Optional[Stdlib::Absolutepath] $server_key = $kcerts::params::server_key,
   Optional[Stdlib::Absolutepath] $server_cert_req = $kcerts::params::server_cert_req,
@@ -112,7 +113,6 @@ class kcerts (
   $ca_key = "${pki_dir}/private/${default_ca_name}.key"
   $ca_cert = "${pki_dir}/certs/${default_ca_name}.crt"
   $ca_cert_stripped = "${pki_dir}/certs/${default_ca_name}-stripped.crt"
-  $ca_key_password = extlib::cache_data('foreman_cache_data', 'ca_key_password', extlib::random_password(24))
   $ca_key_password_file = "${pki_dir}/private/${default_ca_name}.pwd"
 
   $katello_server_ca_cert = "${pki_dir}/certs/${server_ca_name}.crt"
