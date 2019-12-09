@@ -9,7 +9,7 @@ class kcerts::candlepin (
   $ca_key                 = $kcerts::candlepin_ca_key,
   $pki_dir                = $kcerts::pki_dir,
   $keystore               = $kcerts::candlepin_keystore,
-  $keystore_password      = extlib::cache_data('foreman_cache_data', $keystore_password, extlib::random_password(32))
+  $keystore_password      = extlib::cache_data('foreman_cache_data', $keystore_password, extlib::random_password(32)),
   $keystore_password_file = $kcerts::keystore_password_file,
   $amqp_truststore        = $kcerts::candlepin_amqp_truststore,
   $amqp_keystore          = $kcerts::candlepin_amqp_keystore,
